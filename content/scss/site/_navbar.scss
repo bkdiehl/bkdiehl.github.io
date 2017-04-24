@@ -1,0 +1,57 @@
+@mixin buttonHeight() {
+    height:$navbar-height;
+    padding:($navbar-height - $navbar-font-size) / 2;
+    line-height:$navbar-font-size;
+    font-size:$navbar-font-size;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.navbar {
+	margin:0;
+	&-header {
+		a {
+			text-transform:none!important;
+		}
+	}
+
+    &.navbar-main {
+        min-height: $navbar-height;
+        background: rgba(255, 255, 255, .9);
+        border-bottom: 2px solid rgba(0,0,0,0.1);
+    }
+
+    .navbar-toggle {
+        @include buttonHeight();
+        margin:0;
+    }
+
+    .navbar-nav {
+        display: inline-block;
+
+        & > li {
+
+            & > a {
+                @include buttonHeight();
+            }
+        }
+    }
+}
+
+//mobile
+@media(max-width:$screen-sm - 1) {
+
+    //center align navbar links
+    .navbar-nav {
+        width:100%;
+        margin:0;
+
+        & > li {
+
+            & > a {
+                text-align: center;
+            }
+        }
+    }
+
+}

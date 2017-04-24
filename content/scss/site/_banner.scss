@@ -1,0 +1,15 @@
+.banner {
+	padding:30px 0;
+    background:$states-blue;
+	color:#fff;
+
+	p {
+		font-size:18px;
+	}
+
+	@media(min-width:$screen-sm) {
+		padding:60px 0;
+	}
+}
+
+//possible pallettes http://paletton.com/palette.php?uid=75B0X0kl2lDer%2B%2BlZttqOfi9C0k

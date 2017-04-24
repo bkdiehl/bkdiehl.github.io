@@ -1,0 +1,52 @@
+.demos {
+	& > div {
+		padding:30px 0;
+	}
+	.container {
+		&.centered {
+			@media(min-width:$screen-sm) {
+				display:flex;
+				flex-direction:row;
+				flex-wrap: wrap;
+				justify-content:space-around;
+			}
+		}
+	}
+
+	.click-demos, .hover-demos {
+		background:$states-blue;
+		i {
+			padding:15px;
+			transition:.3s background box-shadow;
+			&.active {
+				background:$states-orange;
+				box-shadow:-1px 1px 10px $gray-darker;
+			}
+		}
+
+		md-tabs {
+			min-height:500px;
+		}
+	}
+
+
+	i {
+		display: inline-block;
+		height:100px;
+		width:100px;
+		&:hover {
+			cursor:pointer;
+		}
+		&:focus {
+			outline: none;
+			border: 0;
+		}
+	}
+
+	.easing-illustrator {
+		display:block;
+		margin:0 auto;
+		width:100%;
+		max-width:500px;
+	}
+}

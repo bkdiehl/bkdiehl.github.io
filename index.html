@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Page Title</title>
+		<link rel="stylesheet" href="/content/css/bootstrap.css">
+		<link rel="stylesheet" href="/content/css/angular-material.css">
+		<link rel="stylesheet" href="/content/css/site.css">
+	</head>
+	<body>
+
+		<div class="banner text-center">
+			<h1 class="no-gutter-top">SnapAnimationStates</h1>
+			<p class="gutter-bottom">A <a href="http://snapsvg.io/" class="white">Snap.svg</a> plugin that lets you load and animate svgs using a simple schema.</p>
+			<a href="https://github.com/bkdiehl/snap-animation-states" class="btn btn-main btn-outline-inverse btn-lg">Code on Github</a>
+		</div>
+
+		<div class="container gutter-bottom-lg">
+			<div class="installation">
+				<h1>Installation</h1>
+				<hr>
+				<h2>Include JS</h2>
+				<p>Include <a href="https://cdnjs.com/libraries/snap.svg/0.4.1">Snap.svg 0.4.1</a> and <code>snap-animation-states.js</code> in the footer. No JQuery needed.</p>
+				<pre>&lt;script type="text/javascript" src="js/snap.svg.js"&gt;<br>&lt;script type="text/javascript" src="js/snap-animation-states.js"&gt;</pre>
+				<br>
+				<h2>Set HTML</h2>
+				<p>Your SVGs need a container element. You just need to add whatever class you're calling your svg with to the element that will contain it.</p>
+				<pre>&lt;i class="icon-hamburger"&gt;&lt;/i&gt;<br>&lt;i class="my-svg-selector"&gt;&lt;/i&gt;</pre>
+				<br>
+				<h2>Call the plugin</h2>
+				<p>It's as simple as calling the plugin with the correct schema. </p>
+				<pre>(function() {<br>    SnapStates({ ...schema... })<br>})();
+				</pre>
+			</div>
+			<div class="schema gutter-bottom-lg">
+				<h1>Schema</h1>
+				<hr>
+				<ul class="gutter">
+					<li><code>selector: string</code> css selector - ex: ".icon-hamburger"</li>
+					<li><code>svg: string</code> svg string or svg file reference</li>
+					<li><code>easing: string</code> "linear", "easein", "easeout", "easeinout", "backin", "backout", "bounce", "elastic"</li>
+					<li><code>transitionTime: int</code>Transition time is applied to each transform.  A state with 3 transforms one after the other and a transitionTime of 500 ms will take a total of 1500 ms to finish</li>
+					<li><code>initState: string</code>Set initState equal to the state you want to run when the plugin is called.</li>
+					<li><code>states: obj</code> Contains the states and transforms to be performed.  Each state contains an array of transforms.</li>
+					<ul>
+						<li><code>key: state name</code><code>prop: array of transform objects</code></li>
+						<ul>
+							<li><code>id: int/string/arr</code> The id should be unique to its state. If you want the transform to start after a timeout, the id takes an array: [id, timeout:int]</li>
+							<li><code>waitFor: int/string/arr</code> Set the waitFor property to the id of a transform that it should follow.  For a timeout, waitFor takes an array: [id, timeout: int]</li>
+							<li><code>element: string</code> Takes the css selector of the element that the transform is affecting.</li>
+							<li><code>x: int</code> Takes an x coordinate relative to the elements starting position</li>
+							<li><code>y: int</code> Takes a y coordinate relative to the elements starting position</li>
+							<li><code>r: int/array</code></li>
+							<ul>
+								<li>r:180 rotates the element 180 degrees around its center</li>
+								<li>r:[180, 30, 30] rotates the element 180 degrees around the coordinates 30, 30 on the svg canvas</li>
+							</ul>
+							<li><code>s: int/array</code></li>
+							<ul>
+								<li>s:0.5 scales the element down to half its size.</li>
+								<li>s:[0.5, 1] scales the element down to half its size horizontally without affecting its vertical size.</li>
+								<li>s:[0.5, 0.5, 30, 30] scales the element down to half its size around the coordinates 30, 30 on the svg canvas</li>
+							</ul>
+							<!--<li><code>points: string</code></li>-->
+							<li><code>attr: obj</code> Affect any svg attribute</li>			
+							<li><code>path: string</code> Represented by the "d" attribute in an svg.  <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths">Learn more about paths.</a></li>
+							<li><code>drawPath: int/obj</code></li>
+							<ul>
+								<li>int: percentage of path to draw. 0 is no path and 100 is the full path length</li>
+								<li>obj: {min: minPath max: maxPath} Randomize your path length using min and max</li>
+							</ul>	
+							<li><code>transitionTime: int/obj</code></li>
+							<ul>
+								<li>int: transition time to override the base transition time</li>
+								<li>obj: {min: minTime max: maxTime}  Randomize the transitionTime with a min and max</li>
+							</ul>						
+							<li><code>easing: string</code>same easing options as previously shown.  Useful if you have several types of easing you want to display from transform to transform</li>					
+							<li><code>repeat: obj</code> Will repeat the entire state from the point the repeat is called</li>
+							<ul>
+								<li><code>loop :bool</code> set an infinite loop</li>
+								<li><code>loopDuration :int</code> end loop after a time</li>
+								<li><code>times: int</code> loop the animation x times</li>
+							</ul>	
+						</ul>				
+					</ul>
+					<li><code>events:array of objects</code></li>
+					<ul>
+						<li><code>event: string</code> works with any javascript event</li>
+						<li><code>state: string/array</code></li>
+						<ul>
+							<li>string: string matches name of state you want to run when the event happens</li>
+							<li>array: used for toggle events. ["state1", "state2"] can be toggled when the event happens</li>
+						</ul>
+						<li><code>selector: string</code> a css selector used to indicate where to watch for the event - ex: an svg inside an anchor tag.  The anchor tag will receive the selector so that when the anchor is clicked the svg animation runs.</li>
+					</ul>
+				</ul>
+			</div>
+		</div>
+
+		<div class="demos" ng-app="app" ng-controller="AppCtrl">
+			<div class="container">
+				<h1>Demos</h1>
+				<hr>
+			</div>
+
+			<!--Easing Demos-->
+			<div class="easing-demos">
+				<div class="container">
+					<h1 class="text-center">Easing</h1>
+					<div ng-cloak layout="column" class="gutter-top-lg">
+						<md-tabs md-center-tabs="true" md-border-bottom md-selected="selectedEasingIndex">
+							<md-tab label="{{demo.id}}" ng-repeat="demo in easingDemos"></md-tab>
+						</md-tabs>
+					</div>
+					<i class="easing-illustrator"></i>
+				</div>			
+			</div>
+
+			<!--Click Demos-->
+			<div class="click-demos">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-6 col-sm-3 col-md-2 text-center gutter" ng-repeat="icon in clickDemos">
+							<i ng-class="{'active' : selectedClickIndex == $index}" class="{{icon.id}}" ng-click="setActiveClickDemo($index)"></i>
+						</div>
+					</div>
+					<div ng-cloak layout="column" class="gutter-top-lg">
+						<md-content>
+							<md-tabs md-border-bottom md-selected="selectedClickIndex">
+								<md-tab label="{{demo.id}}" ng-repeat="demo in clickDemos">
+									<md-content class="md-padding">
+										<pre ng-bind="demo.schema"></pre>
+									</md-content>
+								</md-tab>
+							</md-tabs>
+						</md-content>
+					</div>
+				</div>
+			</div>
+
+			<div class="checkbox-demos">
+				<div class="container centered">
+					<div ng-repeat="checkbox in checkboxDemos">
+						<ul class="checkbox-group">
+							<li ng-repeat="box in checkbox">
+								<i class="{{box.class}}"></i>
+								<input type="checkbox" name="{{box.id}}" id="{{box.id}}" />
+								<label for="{{box.id}}" class="checkbox-selector" >Checkbox {{$index + 1}}</label>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="container">
+					<pre id="checkbox-demo"></pre>
+				</div>
+			</div>
+
+			<div class="hover-demos">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-6 col-sm-3 col-md-2 text-center gutter" ng-repeat="icon in hoverDemos">
+							<i ng-class="{'active' : selectedHoverIndex == $index}" class="{{icon.id}}" ng-click="setActiveHoverDemo($index)"></i>
+						</div>
+					</div>
+					<div ng-cloak layout="column" class="gutter-top-lg">
+						<md-content>
+							<md-tabs md-border-bottom md-selected="selectedHoverIndex">
+								<md-tab label="{{demo.id}}" ng-repeat="demo in hoverDemos">
+									<md-content class="md-padding">
+										<pre ng-bind="demo.schema"></pre>
+									</md-content>
+								</md-tab>
+							</md-tabs>
+						</md-content>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- AngularJS Material Dependencies -->
+		<script src="/content/js/angular.js"></script>
+		<script src="/content/js/angular.animate.js"></script>
+		<script src="/content/js/angular.aria.js"></script>
+		<script src="/content/js/angular.material.js"></script>
+
+		<!--My App-->
+		<script type="text/javascript" src="/content/js/app/app.js"></script>
+
+		<!--SVG js files-->
+		<script type="text/javascript" src="/content/js/snap.svg.js"></script>
+		<script type="text/javascript" src="/content/js/snap-animation-states.js"></script>
+		<script type="text/javascript" src="/content/js/icons.js"></script>
+<!--Click Icons-->
+<script id="icon-hamburger">
+var iconHamburger = {
+	selector:'.icon-hamburger',
+	svg: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg width="100%" height="100%" viewBox="0 0 65 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.5;"><g class="hamburger-group" fill="none" stroke="#000" stroke-width="10"><g class="hamburger-upper"><path class="hamburger-top" d="m 5,10 55,0" /><path class="hamburger-middle" d="m 5,30 55,0" /></g><g class="hamburger-lower"><path class="hamburger-bottom" d="m 5,50 55,0" /></g></g></svg>',
+	transitionTime: 250,
+	states: {
+		open:[
+			{ id: "top-lower", element: ".hamburger-top", y:20 },
+			{ id: "bottom-raise", element: ".hamburger-bottom", y:-20 },
+			{ waitFor: "top-lower", element: ".hamburger-upper", r:45 },
+			{ waitFor: "top-lower", element: ".hamburger-lower", r:-45 },
+		],
+		closed: [
+			{ id: "top-angle", element: ".hamburger-upper", r: 0 },
+			{ id: "bottom-angle", element: ".hamburger-lower", r: 0 },						
+			{ waitFor: "top-angle", element: ".hamburger-top", y: 0 },
+			{ waitFor: "bottom-angle", element: ".hamburger-bottom", y: 0 },
+		]
+	},
+	events: [
+		{ event: 'click', state: ["open", "closed"] }
+	]	
+};
+
+SnapStates(iconHamburger);
+</script>
+<script id="icon-lock">
+var iconLock = {
+	selector: ".icon-lock",
+	svg: '<svg width="100%" height="100%" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.5;"><path class="clasp" d="M45.045,42.402L45.045,24.409C45.045,16.873 39.197,10.755 31.995,10.755C24.792,10.755 18.945,16.873 18.945,24.409L18.945,33.817" style="fill:none;stroke:#000;stroke-width:4.5px;"/><path d="M51.113,44.882C50.937,54.8 42.447,62.788 32,62.788C21.552,62.788 13.063,54.8 12.887,44.882L12.884,44.882L12.884,34.276C12.884,33.245 13.719,32.41 14.749,32.41L49.251,32.41C50.281,32.41 51.116,33.245 51.116,34.276L51.116,44.567L51.116,44.567C51.116,44.607 51.116,44.647 51.116,44.686L51.116,44.882L51.113,44.882ZM34,48.606C35.485,47.869 36.505,46.337 36.505,44.567C36.505,42.08 34.488,40.062 32,40.062C29.512,40.062 27.495,42.08 27.495,44.567C27.495,46.337 28.515,47.869 30,48.606L30,52.794L34,52.794L34,48.606Z" style="stroke:#000;stroke-width:1.25px;stroke-linejoin:miter;stroke-miterlimit:10;"/></svg>',
+	transitionTime:250,
+	initState:'unlocked',
+	states: {
+		locked:[
+			{ id: 'locked', element: '.clasp', y:0 }
+		],
+		unlocked:[
+			{ id: 'unlocked', element: '.clasp', y:-7 }
+		]
+	},
+	events: [
+		{ event: 'click', state: ["locked", "unlocked"] }
+	]
+};
+
+SnapStates(iconLock);
+</script>
+<script id="icon-arrow-rotating">
+var iconArrowRotating = {
+	selector: ".icon-arrow-rotating",
+	svg: "./content/svg/icon-arrow-rotating.svg",
+	transitionTime: 500,
+	easing: "linear",
+	states: {
+		spin:[
+			{ id: "spin-init", element: ".arrow-group", r:180, s:.75, repeat: { times: 1 } },
+			{ id: "spin-after", waitFor:'spin-init', element: ".arrow-group", r:360, s:1 },
+			{ waitFor: "spin-after", element: ".arrow-group", r: 0, transitionTime: 0 }
+		]		
+	},
+	events: [
+		{ event: 'click', state: "spin" }
+	]
+};
+
+SnapStates(iconArrowRotating);
+</script>
+<script id="icon-magnifying-glass">
+var iconMagnifyingGlass = {
+	selector: ".icon-magnifying-glass",
+	svg: "./content/svg/icon-magnifying-glass.svg",
+	transitionTime:500,
+	states: {
+		zoomIn: [
+			{ id: "vertical-line-in", element:'.vertical', r:270 },
+			{ id: "horizontal-line-in", element:'.horizontal', r:-180 }
+		],
+		zoomOut: [
+			{ id: "vertical-line-out", element:'.vertical', r:0 },
+			{ id: "horizontal-line-out", element:'.horizontal', r:0 }
+		],
+	},
+	events: [
+		{ event: 'click', state: ["zoomIn", "zoomOut"] }
+	]
+};
+
+SnapStates(iconMagnifyingGlass);
+</script>
+<script id="icon-folder">
+var iconFolder = {
+	selector: ".icon-folder",
+	svg: "./content/svg/icon-folder.svg",
+	transitionTime:500,
+	initState: 'open',
+	states: {
+		open: [
+			{ id: 'outline-open', element: '.cover', path: "M3.5,51.5L54.5,51.5L62.415,24.29L31.915,24.255L23.915,29.49L11.415,29.49L3.5,51.5" },
+		],
+		closed: [
+			{ id: 'outline-close', element: '.cover', path: "M3.5,51.5L54.5,51.5L54.5,17.8L24,17.765L16,23L3.5,23L3.5,51.5" },
+		],
+		hover: [
+			{ id: "bounce-up", element: ".folder", y: -2, transitionTime: 100, repeat: { times:1 } },
+			{ id:"bounce-side", waitFor: "bounce-up", element: ".folder", y:0, transitionTime: 100 },
+		]
+	},
+	events: [
+		{ event: "click", state: ['closed', 'open'] },
+		{ event: "mouseenter", state: 'hover' },
+	]
+};
+
+SnapStates(iconFolder);
+</script>
+<script id="icon-recycling">
+var iconRecycling = {
+	selector: ".icon-recycling",
+	svg: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg width="100%" height="100%" viewBox="0 0 65 65" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:10;"><path  class="recycling-bin-garbage" d="M69.832,0L72.685,1.938L71.595,5.074L68.069,5.074L66.979,1.938L69.832,0Z" style="stroke:#000;stroke-width:1.67px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;stroke-dasharray:1.67,1.67;"/><path class="recycling-bin-lid" d="M50.5,16.589L14.5,16.589C14.5,14.768 15.977,13.291 17.798,13.291L29.593,13.291L29.593,11.848L35.407,11.848L35.407,13.218L47.202,13.275C49.026,13.284 50.5,14.765 50.5,16.589Z" style="fill-rule:nonzero;stroke:#000;stroke-width:2px;"/><path d="M48.5,62.152L16.5,62.152L14.5,20.152L50.5,20.152L48.5,62.152Z" style="stroke:#000;stroke-width:2px;"/><g><path d="M30.5,25.469L30.5,57.469C30.5,59.399 34.5,59.403 34.5,57.469L34.5,25.469C34.5,23.539 30.5,23.535 30.5,25.469Z" style="fill:#000;"/><path d="M41.902,25.41L39.113,57.288C38.945,59.211 42.929,59.563 43.098,57.637L45.887,25.758C46.055,23.836 42.07,23.483 41.902,25.41Z" style="fill:#000;"/><path d="M19.113,25.759L21.902,57.637C22.07,59.559 26.055,59.215 25.887,57.288L23.098,25.41C22.929,23.487 18.944,23.832 19.113,25.759Z" style="fill:#000;"/></g></svg>',
+	transitionTime:350,
+	easing:"easeinout",
+	states: {
+		recycle: [
+			{ id: "open-bin", element: ".recycling-bin-lid", x:-4, y:-5, r:-24 },
+			{ id:"throw-garbage", element: ".recycling-bin-garbage", waitFor: "open-bin", x:-50, y:25, r:360, transitionTime:600 },
+			{ id:"close-lid", element: ".recycling-bin-lid", waitFor: "throw-garbage", x:0, y:0, r:0 },
+			{ id:"retrieve-garbage", element: ".recycling-bin-garbage", waitFor: "throw-garbage", x:0, y:0, r:0, transitionTime:0 },
+		]
+	},
+	events: [
+		{ event: 'click', state: "recycle" }
+	]
+};
+
+SnapStates(iconRecycling);
+</script>
+<script id="icon-speaker">
+var iconSpeaker = {
+	selector: ".icon-speaker",
+	svg: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg width="100%" height="100%" viewBox="0 0 65 65" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M17.098,23.808L36.652,10.992L36.652,54.008L17.066,41.211L17.066,41.192L4.316,41.192L4.316,23.808L17.098,23.808Z"/><path class="wave-line-1" d="M41.134,26.272C43.277,27.521 44.718,29.843 44.718,32.499C44.718,35.157 43.275,37.48 41.13,38.728" style="fill:none;stroke:#000;stroke-width:4px;"/><path class="wave-line-2" d="M45.155,19.481C49.633,22.091 52.645,26.945 52.645,32.497C52.645,38.053 49.629,42.91 45.146,45.519" style="fill:none;stroke:#000;stroke-width:4px;"/><path class="wave-line-3" d="M49.21,12.557C56.07,16.555 60.684,23.991 60.684,32.496C60.684,41.007 56.063,48.447 49.195,52.443" style="fill:none;stroke:#000;stroke-width:4px;"/></svg>',
+	easing: "linear",
+	states:{
+		mute:[
+			{ id: "waveline1", element: ".wave-line-1", x:-10, s:0.1, attr:{ opacity:.8 }, transitionTime: 250 },
+			{ id: "waveline2", element: ".wave-line-2", x:-16, s:0.1, attr:{ opacity:.8 }, transitionTime: 300 },
+			{ id: "waveline3", element: ".wave-line-3", x:-22, s:0.1, attr:{ opacity:.8 }, transitionTime: 350 },
+		],
+		unmute: [
+			{ id: "waveline1", element: ".wave-line-1", x:0, s:1, attr:{ opacity:1 }, transitionTime: 350 },
+			{ id: "waveline2", element: ".wave-line-2", x:0, s:1, attr:{ opacity:1 }, transitionTime: 300 },
+			{ id: "waveline3", element: ".wave-line-3", x:0, s:1, attr:{ opacity:1 }, transitionTime: 250 },
+		]
+	},
+	events: [
+		{ event: 'click', state: ["mute", "unmute"] }
+	]
+};
+
+SnapStates(iconSpeaker);
+</script>
+<script id="icon-envelope">
+var iconEnvelope = {
+	selector: ".icon-envelope",
+	svg: "./content/svg/icon-envelope.svg",
+	transitionTime: 500,
+	easing: "linear",
+	states: {
+		open:[
+			{ id: "fold-up", element: ".flap", y:-17.5, s:[1, -1] },
+		],
+		close:[
+			{ id: "fold-down", element: ".flap", y:0, s:[1, 1] },
+		]		
+	},
+	events: [
+		{ event: 'click', state: ["open", "close"] }
+	]
+};
+
+SnapStates(iconEnvelope);
+</script>
+
+
+
+
+
+<!--Checkbox-->
+<script id="checkbox">
+SnapStates({
+	selector: ".checkbox-x",
+	svg:"./content/svg/checkbox-x.svg",
+	transitionTime:400,
+	easing:"linear",
+	states: {
+		draw: [
+			{ id: "draw1", element: ".line_1", drawPath:100 },
+			{ id: ["draw2", 200], element: ".line_2", drawPath:100 }
+		],
+		hide: [
+			{ id:"hide1", element: ".line_1", drawPath:0, transitionTime:0 },
+			{ id:"hide2", element: ".line_2", drawPath:0, transitionTime:0 }
+		]
+	},
+	events: [
+		{ event:'click', state: ["draw", "hide"], selector: '.checkbox-selector' }
+	]
+});
+
+</script>
+<script>
+	var schema = document.getElementById('checkbox'),
+		elem = document.getElementById('checkbox-demo');
+
+	elem.innerHTML = schema.innerHTML;
+</script>
+
+
+
+
+<!--Hover Icons-->
+<script id="icon-share">
+var iconShare = {
+	selector: ".icon-share",
+	svg: "./content/svg/icon-share.svg",
+	transitionTime: 400,
+	states: {
+		showMore: [	
+			//1
+			{ id: "transform-s-in", element: ".share-icon-main", x:11, s:.5 },
+
+			//2
+			{ waitFor:"transform-s-in", element: ".left", drawPath:100 },
+			{ waitFor:"transform-s-in", element: ".center-circle", attr: { r: 11 }, transitionTime: 1500 },
+			{ waitFor:'transform-s-in', element: ".bottom-line", drawPath:100 },
+			{ waitFor:'transform-s-in', element: ".top-line", drawPath:100 },
+			{ waitFor:"transform-s-in", element: ".right-upper-circle", s:.7, x:2, y:-1 },
+
+			//3
+			{ id:["right-upper-branch", 600], element: ".right-upper-branch", drawPath:100  },
+			{ id:["left-upper-circle", 600], element: ".left-upper-circle", s:1, attr: { opacity:1 }  },
+			{ id:["left-lower-circle", 600], element: ".left-lower-circle", s:1, attr: { opacity:1 }  },		
+			{ id:["right-upper-branch-circle", 600], element: ".right-upper-branch-circle", s:1, attr: { opacity:1 }  },
+		],
+		showLess: [
+			//1
+			{ id:"left-upper-circle-hide", element: ".left-upper-circle", s:0, attr: { opacity:0 }  },
+			{ id:"left-lower-circle-hide", element: ".left-lower-circle", s:0, attr: { opacity:0 }  },		
+			{ id:"right-upper-branch-circle-hide", element: ".right-upper-branch-circle", s:0, attr: { opacity:0 }  },
+			{ id:"right-upper-branch-hide", element: ".right-upper-branch", drawPath:0  },
+			{ id:"left-hide", element: ".left", drawPath:0 },
+			{ id:"center-circle-hide", element: ".center-circle", attr: { r: 7 } },
+			{ id:'bottom-line-hide', element: ".bottom-line", drawPath:0 },
+			{ id:'top-line-hide', element: ".top-line", drawPath:0 },
+			{ id:"right-upper-circle-hide", element: ".right-upper-circle", s:1, x:0, y:0 },
+
+			//2
+			{ waitFor:"left-hide", element: ".share-icon-main", x:0, s:1 },
+		]
+	},
+	events: [
+		{ event: 'mouseenter', state: "showMore" },
+		{ event: 'mouseleave', state: "showLess" }
+	]
+};
+
+SnapStates(iconShare);
+</script>
+<script id="icon-globe">
+var globe = {
+	selector: ".icon-globe",
+	svg: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg width="100%" height="100%" viewBox="0 0 65 65" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><g class="globe"><circle class="circle" cx="32.5" cy="32.5" r="29" style="fill:none;stroke:#000;stroke-width:2.5px;"/><path class="horizontal" d="M3.5,32.5L61.5,32.5" style="fill:none;stroke:#000;stroke-width:2.5px;"/><path class="vertical-right" d="M32.5,3.5L32.501,3.501C41.534,10.408 46.833,21.129 46.833,32.5C46.833,43.871 41.534,54.592 32.501,61.499L32.5,61.5" style="fill:none;stroke:#000;stroke-width:2.5px;"/><path class="vertical-left" d="M32.5,3.5C32.5,3.5 32.499,3.5 32.498,3.501C23.465,10.408 18.167,21.129 18.167,32.5C18.167,43.871 23.465,54.592 32.498,61.499C32.499,61.5 32.5,61.5 32.5,61.5" style="fill:none;stroke:#000;stroke-width:2.5px;"/><path class="vertical" d="M32.5,61.5L32.5,3.5" style="fill:none;stroke:#000;stroke-width:2.5px;"/><path class="horizontal-bottom" d="M11.709,52.326C17.273,47.366 24.467,44.437 32.5,44.437C40.466,44.437 47.744,47.44 53.291,52.326" style="fill:none;stroke:#000;stroke-width:2.5px;"/><path class="horizontal-top" d="M11.709,12.436C17.273,17.395 24.467,20.325 32.5,20.325C40.466,20.325 47.744,17.322 53.291,12.436" style="fill:none;stroke:#000;stroke-width:2.5px;"/></g></svg>',
+	transitionTime: 500,
+	easing: 'elastic',
+	states: {
+		shrink:[	
+			{ id: 'circle-set', element: ".circle", attr: { r:29 }, transitionTime:0 },	
+			{ id: "scale-down", element: ".globe", s:[.75, .75] }
+		],
+		grow: [
+			{ id: "scale-up", element: ".globe", s:[1, 1] },	
+			{ id: 'circle-grow', element: ".circle", attr: { r:32 } },	
+			{ waitFor: 'circle-grow', element: ".circle", attr: { r:29 } },	
+		]
+	},
+	events: [
+		{ event: "mouseenter", state: "shrink", selector: '.icon-globe-animate' },
+		{ event: "mouseleave", state: "grow", selector: '.icon-globe-animate' }
+	]
+};
+
+SnapStates(iconShare);
+</script>
+<script id="icon-new-document">
+var iconNewDocument = {
+	selector:'.icon-new-document',
+	svg:"../content/svg/icon-new-document.svg",
+	states: {
+		draw: [
+			{ id: 'line1-init', element: ".new-document-line1", drawPath: { min: 25, max: 75 }, transitionTime: { min: 500, max: 1000 }, repeat: {times:1} },	
+			{ id: 'line2-init', element: ".new-document-line2", drawPath: { min: 25, max: 75 }, transitionTime: { min: 500, max: 1000 }, repeat: {times:1} },
+			{ id: 'line3-init', element: ".new-document-line3", drawPath: { min: 25, max: 75 }, transitionTime: { min: 500, max: 1000 }, repeat: {times:1} },
+			{ id: 'line4-init', element: ".new-document-line4", drawPath: { min: 25, max: 75 }, transitionTime: { min: 500, max: 1000 }, repeat: {times:1} },
+			{ id: 'line5-init', element: ".new-document-line5", drawPath: { min: 25, max: 75 }, transitionTime: { min: 500, max: 1000 }, repeat: {times:1} },
+			{ waitFor: 'line1-init', element: ".new-document-line1", drawPath: 100, transitionTime: { min: 500, max: 1000 } },
+			{ waitFor: 'line2-init', element: ".new-document-line2", drawPath: 100, transitionTime: { min: 500, max: 1000 } },
+			{ waitFor: 'line3-init', element: ".new-document-line3", drawPath: 100, transitionTime: { min: 500, max: 1000 } },
+			{ waitFor: 'line4-init', element: ".new-document-line4", drawPath: 100, transitionTime: { min: 500, max: 1000 } },
+			{ waitFor: 'line5-init', element: ".new-document-line5", drawPath: 100, transitionTime: { min: 500, max: 1000 } },
+		]
+	},
+	events: [
+		{ event: 'mouseenter', state: "draw" }
+	]
+};
+
+SnapStates(iconNewDocument);
+</script>
+<script id="icon-link">
+var iconLink = {
+	selector: ".icon-link",
+	svg: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg width="100%" height="100%" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.5;"><path class="top-link" d="M41.125,28.65C42.217,29.743 42.911,29.768 44.299,30.024C46.403,30.411 48.605,29.83 50.175,28.26L58.508,19.927C61.113,17.322 60.996,12.975 58.247,10.225L54.775,6.754C52.025,4.004 47.678,3.887 45.073,6.492L36.74,14.825C34.135,17.43 33.638,21.163 36.387,23.912" style="fill:none;stroke:#000;stroke-width:3px;"/><path class="middle-link" d="M23.938,41.052L41.167,23.823" style="fill:none;stroke:#000;stroke-width:3px;stroke-linecap:round;"/><path class="bottom-link" d="M23.875,36.35C22.783,35.257 22.089,35.232 20.701,34.976C18.597,34.589 16.395,35.17 14.825,36.74L6.492,45.073C3.887,47.678 4.004,52.025 6.753,54.775L10.225,58.246C12.975,60.996 17.322,61.113 19.927,58.508L28.26,50.175C30.865,47.57 31.362,43.837 28.613,41.088" style="fill:none;stroke:#000;stroke-width:3px;"/></svg>',
+	states: {
+		animateLinks: [
+			{ id: "top-contract", element: ".top-link", x:-3.5, y:3.5, transitionTime:250, easing: "easein", repeat:{ times: 2, delay: 200 } },
+			{ id: "middle-twist", element: ".middle-link", r: 8, transitionTime:250, easing: "easein", repeat:{ times: 2, delay: 200 } },
+			{ id: "bottom-contract", element: ".bottom-link", x:3.5, y:-3.5, transitionTime:250, easing: "easein", repeat:{ times: 2, delay: 200 } },
+			{ waitFor: "top-contract", element: ".top-link", x:0, y:0, transitionTime:50, easing: "bounce" },
+			{ waitFor: "middle-twist", element: ".middle-link", r:0, transitionTime:50, easing: "bounce" },
+			{ waitFor: "bottom-contract", element: ".bottom-link", x:0, y:0, transitionTime:50, easing: "bounce" },
+		],
+	},
+	events: [
+		{ event: 'mouseenter', state: "animateLinks" }
+	]
+};
+
+SnapStates(iconLink)
+</script>
+<script id="icon-wrench">
+var iconWrench = {
+	selector: ".icon-wrench",
+	svg: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg width="100%" height="100%" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path class="wrench" d="M38.017,19.362C37.493,18.125 37.203,16.765 37.203,15.338C37.203,9.636 41.832,5.006 47.534,5.006C48.278,5.006 49.003,5.085 49.702,5.235L44.72,10.216C42.53,12.406 42.53,15.962 44.72,18.152C46.91,20.342 50.466,20.342 52.656,18.152L57.637,13.17C57.787,13.869 57.866,14.594 57.866,15.338C57.866,21.04 53.236,25.669 47.534,25.669C46.107,25.669 44.747,25.379 43.51,24.855L23.714,44.651C24.238,45.888 24.528,47.248 24.528,48.675C24.528,54.377 19.899,59.006 14.197,59.006C13.454,59.006 12.729,58.928 12.03,58.778L17.011,53.797C19.201,51.607 19.201,48.051 17.011,45.861C14.821,43.671 11.265,43.671 9.075,45.861L4.094,50.842C3.944,50.143 3.866,49.418 3.866,48.675C3.866,42.973 8.495,38.344 14.197,38.344C15.624,38.344 16.984,38.634 18.221,39.158L38.017,19.362Z" style="stroke:#000;stroke-width:1px;"/></svg>',
+	easing: "easeinout",
+	transitionTime:100,
+	states: {
+		shake: [
+			{ id: "shake-right", element: '.wrench', r: 10 },
+			{ id: "shake-left", waitFor: 'shake-right', element: '.wrench', r: -10 },
+			{ id: "back-to-right", waitFor: 'shake-left', element: '.wrench', r: 10 },
+			{ id: "back-to-left", waitFor: 'back-to-right', element: '.wrench', r: -10 },
+			{ waitFor: 'back-to-left', element: '.wrench', r: 0 }
+		]
+	},
+	events: [
+		{ event: 'mouseenter', state: "shake" }
+	]
+};
+
+SnapStates(iconWrench);
+</script>
+<script id="icon-wall">
+var iconWall = {
+	selector: ".icon-wall",
+	svg: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg width="100%" height="100%" viewBox="0 0 65 65" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"> <g><rect class="top-left" x="-1.274" y="2.983" width="32.5" height="18"/><rect class="top-right" x="33.774" y="2.983" width="32.5" height="18"/><rect class="bottom-left" x="-1.274" y="43.96" width="32.5" height="18"/><rect class="bottom-right" x="33.774" y="43.96" width="32.5" height="18"/><rect class="left" x="-1.274" y="23.5" width="15.074" height="18"/><rect class="right" x="51.213" y="23.5" width="15.074" height="18"/><rect class="center" x="16.25" y="23.5" width="32.5" height="18"/></g></svg>',
+	transitionTime:500,
+	easing: 'elastic',
+	states: {
+		close: [
+			{ id: 'top-left-in', element: ".top-left", x: 5, y: 5 },
+			{ id: 'top-right-in', element: ".top-right", x: -5, y: 5 },
+			{ id: 'bottom-left-in', element: ".bottom-left", x: 5, y: -5 },
+			{ id: 'bottom-right-in', element: ".bottom-right", x: -5, y: -5 },
+			{ id: 'left-in', element: ".left", x: 5 },
+			{ id: 'right-in', element: ".right", x: -5 },
+		],
+		open: [
+			{ id: 'top-left-out', element: ".top-left", x: 0, y: 0 },
+			{ id: 'top-right-out', element: ".top-right", x: 0, y: 0 },
+			{ id: 'bottom-left-out', element: ".bottom-left", x: 0, y: 0 },
+			{ id: 'bottom-right-out', element: ".bottom-right", x: 0, y: 0 },
+			{ id: 'left-out', element: ".left", x: 0 },
+			{ id: 'right-out', element: ".right", x: 0 },
+		]
+	},
+	events: [
+		{ event: 'mouseenter', state: "close" },
+		{ event: 'mouseleave', state: "open" },
+	]
+};
+
+SnapStates(iconWall);
+</script>
+<script id="icon-mobile">
+var iconMobile = {
+	selector: ".icon-mobile",
+	svg: "./content/svg/icon-mobile.svg",
+	easing:'bounce',
+	transitionTime:500,
+	states: {
+		showContent: [
+			{ id: 'init1', element: ".content1", y: 0, attr: { height:6.8, opacity:1 }, transitionTime:0 },	
+			{ waitFor: 'init1', element: ".content1", y:37 },	
+			{ id: "grow1", waitFor: 'init1', element: ".content1", attr: { height: 10 } },
+			
+			{ id: 'init2', element: ".content2", y: 0, attr: { height:6.8, opacity:1 }, transitionTime:0 },	
+			{ waitFor: 'grow1', element: ".content2", y:24, },	
+			{ id: "grow2", waitFor: 'grow1', element: ".content2", attr: { height: 10 } },
+
+			{ id: 'init3', element: ".content3", y: 0, attr: { height:6.8, opacity:1 }, transitionTime:0 },	
+			{ waitFor: 'grow2', element: ".content3", y:11 },	
+			{ id: "grow3", waitFor: 'grow2', element: ".content3", attr: { height: 10 } },
+
+			{ waitFor: ["grow3", 250], element: ".content1", attr: { opacity:0 }, transitionTime:500 },
+			{ waitFor: ["grow3", 250], element: ".content2",attr: { opacity:0 }, transitionTime:500 },
+			{ waitFor: ["grow3", 250], element: ".content3",attr: { opacity:0 }, transitionTime:500 }
+		]
+	},
+	events: [
+		{ event: 'mouseenter', state: "showContent" }
+	]
+}
+</script>
+<script id="icon-desktop">
+var iconDesktop = {
+	selector: "icon-desktop",
+	svg: "./content/svg/icon-desktop.svg",
+	easing: "linear",
+	states: {
+		flicker:[
+			{ id: "init", element: ".line", path: "M7.992,27.043L57.008,27.043", attr: { opacity:0 }, transitionTime:0 },
+			{ id: "fade-in", waitFor:'init', element: ".line", attr: { opacity:1 }, transitionTime:100 },
+			{ id: "transform", waitFor:'fade-in', element: ".line", path:"M7.992,27.046L10,27.046L16.125,29.849L22.25,21.849L28.375,36.849L34.5,27.046L57.008,27.046", transitionTime:250 },
+			{ id: "move", waitFor:'transform', element: ".line", path:"M7.992,27.046L26.451,27.046L32.576,29.849L38.701,21.849L44.826,36.849L50.951,27.046L57.008,27.046", transitionTime:400 },
+			{ waitFor:'move', element: ".line", attr: {opacity:0}, transitionTime:100 },
+		]		
+	},
+	events: [
+		{ event: 'mouseenter', state: "flicker" }
+	]
+};
+
+SnapStates(iconDesktop);
+</script>
+
+	</body>
+</html>

@@ -1,0 +1,149 @@
+$gutter-sm: 5px !default;
+$gutter: 15px !default;
+$gutter-lg: 30px !default;
+
+/*#region vertical gutters*/
+.no-gutter-top {
+    margin-top:0;
+}
+
+.no-gutter-bottom {
+    margin-bottom:0;
+}
+
+.no-gutter {
+    @extend .no-gutter-top;
+    @extend .no-gutter-bottom;
+}
+
+.gutter-top-sm {
+    margin-top:$gutter-sm;
+}
+
+.gutter-bottom-sm {
+    margin-bottom:$gutter-sm;
+}
+
+.gutter-sm {
+    @extend .gutter-top-sm;
+    @extend .gutter-bottom-sm;
+}
+
+.gutter-top {
+    margin-top: $gutter;
+}
+
+.gutter-bottom {
+    margin-bottom: $gutter;
+}
+
+.gutter {
+    @extend .gutter-top;
+    @extend .gutter-bottom;
+}
+
+.gutter-top-lg {
+    margin-top: $gutter-lg;
+}
+
+.gutter-bottom-lg {
+    margin-bottom: $gutter-lg;
+}
+
+.gutter-lg {
+    @extend .gutter-top-lg;
+    @extend .gutter-bottom-lg;
+}
+/*#endregion*/
+
+/*#region horizontal gutters*/
+.gutter-left-sm {
+	margin-left: $gutter-sm;
+}
+
+.gutter-right-sm {
+	margin-right: $gutter-sm;
+}
+
+.gutter-left {
+	margin-left: $gutter;
+}
+
+.gutter-right {
+	margin-right: $gutter;
+}
+
+.gutter-left-auto {
+	margin-left: auto;
+}
+
+.gutter-right-auto {
+	margin-left: auto;
+}
+
+.gutter-left-lg {
+	margin-left: $gutter-lg;
+}
+
+.gutter-right-lg {
+	margin-right: $gutter-lg;
+}
+/*#endregion*/
+
+
+.no-padding{
+    padding:0;
+}
+
+.no-border{
+    border:none;
+}
+
+.margin-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.img-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.container {
+    @media(min-width:1600px) {
+        width:1400px;
+    }
+}
+
+.section {
+    padding-top:30px;
+    padding-bottom:30px;
+}
+
+.white {
+	color:#fff;
+	&:hover {
+		color:#fff;
+	}
+}
+
+.btn {
+
+	&-main {
+		font-size:20px;
+		padding: 15px 30px;		
+	}
+
+	&-outline-inverse {
+		color: #fff;
+		background-color: transparent;
+		border-color: #fff;
+		&:hover {
+			color: #45a0de;
+			text-shadow: none;
+			background-color: #fff;
+			border-color: #fff;
+		}
+
+	}
+}

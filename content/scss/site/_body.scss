@@ -1,0 +1,36 @@
+body {
+    
+}
+
+@media(min-width:$screen-md) {
+	.row {
+		width: 100%;
+		display: table;
+		table-layout: fixed;
+		margin:0 auto;
+
+		& > div {
+			display: table-cell;
+			vertical-align: middle;
+			float: none;
+		}
+	}
+}
+
+
+.setup {
+	border-top:1px solid $gray-lighter;
+}
+
+.schema {
+	li {
+		font-size:12.6px;
+	}
+}
+code {
+	padding:2px 8px;
+	border:1px solid $gray-lighter;
+	border-radius:5px;
+	margin-bottom:5px;
+	display:inline-block;
+}

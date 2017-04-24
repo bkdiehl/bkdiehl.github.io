@@ -1,0 +1,36 @@
+svg {
+	// max-height:300px;
+	// max-width:300px;
+	height:100%;
+	width:100%;
+}
+
+a {
+	&:hover {
+		cursor:pointer;
+	}
+}
+
+//global settings for svgs
+svg {
+	path {
+		stroke-linecap: butt;
+	}
+}
+
+
+
+.easing {
+	
+	&-illustrator {
+		width:100%;
+	}
+}
+
+
+.animation-states-title {
+	max-width:600px;
+	width:100%;
+	display:block;
+	margin:0 auto;
+}
