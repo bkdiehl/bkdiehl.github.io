@@ -1,3 +1,5 @@
+$codepen-gray:#3D3D3E;
+
 .demos {
 	& > div:not(.container) {
 		padding:30px 0;
@@ -13,8 +15,10 @@
 		}
 	}
 
+
 	.click-demos, .hover-demos {
 		background:$states-blue;
+		
 		i {
 			padding:15px;
 			transition:.3s background box-shadow;
@@ -22,11 +26,24 @@
 				background:$states-orange;
 				box-shadow:-1px 1px 10px $gray-darker;
 			}
+		}	
+		
+		md-tabs {
+			background:$codepen-gray;
+			min-height:450px;
+			span, md-icon {
+				color:#fff;
+			}
 		}
 
-		md-tabs {
-			min-height:500px;
+		md-tab-content {
+			overflow:hidden;
 		}
+	}
+
+	.pen-container {
+		background:$codepen-gray;
+		height: 450px;
 	}
 
 
