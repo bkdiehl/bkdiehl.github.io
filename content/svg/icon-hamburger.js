@@ -15,6 +15,6 @@
 		]
 	},
 	events: [
-		{ event: "click", state: ["open", "closed"], selector: '.hamburger-animate' }
+		{ event: "click", state: ["open", "closed"] }
 	]
 }

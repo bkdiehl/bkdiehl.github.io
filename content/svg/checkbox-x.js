@@ -12,6 +12,6 @@
 		]
 	},
 	events: [
-		{ event:'click', state: ["draw", "hide"], selector: '.checkbox-selector' }
+		{ event:'change', state: ["draw", "hide"], selector: '.checkbox-selector' }
 	]
 }

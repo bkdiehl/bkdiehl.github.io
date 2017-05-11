@@ -11,12 +11,7 @@
 			{ id: 'right-in', element: ".right", x: -5 },
 		],
 		open: [
-			{ id: 'top-left-out', element: ".top-left", x: 0, y: 0 },
-			{ id: 'top-right-out', element: ".top-right", x: 0, y: 0 },
-			{ id: 'bottom-left-out', element: ".bottom-left", x: 0, y: 0 },
-			{ id: 'bottom-right-out', element: ".bottom-right", x: 0, y: 0 },
-			{ id: 'left-out', element: ".left", x: 0 },
-			{ id: 'right-out', element: ".right", x: 0 },
+			{ id: 'revert', element: "rect", x: 0, y:0 },
 		]
 	},
 	events: [

@@ -6,9 +6,9 @@
 	<path d="M49,62.5C45.14,62.5 42,59.36 42,55.5C42,51.64 45.14,48.5 49,48.5C52.86,48.5 56,51.64 56,55.5C56,59.36 52.86,62.5 49,62.5" style="fill-rule:nonzero;"/>
 	<path d="M49,51.731L49,59.27" style="fill:none;stroke:#fff;stroke-width:1.5px;"/>
 	<path d="M52.77,55.5L45.231,55.5" style="fill:none;stroke:#fff;stroke-width:1.5px;"/>
-	<path class="new-document-line1" d="M18,13L35,13" style="fill:none;stroke:#000;stroke-width:3px;stroke-linecap:butt;"/>
-	<path class="new-document-line2" d="M18,23L46,23" style="fill:none;stroke:#000;stroke-width:2.5px;stroke-linecap:butt;"/>
-	<path class="new-document-line3" d="M18,31L46,31" style="fill:none;stroke:#000;stroke-width:2.5px;stroke-linecap:butt;"/>
-	<path class="new-document-line4" d="M18,39L46,39" style="fill:none;stroke:#000;stroke-width:2.5px;stroke-linecap:butt;"/>
-	<path class="new-document-line5" d="M18,47L46,47" style="fill:none;stroke:#000;stroke-width:2.5px;stroke-linecap:butt;"/>
+	<path class="line new-document-line1" d="M18,13L35,13" style="fill:none;stroke:#000;stroke-width:3px;stroke-linecap:butt;"/>
+	<path class="line new-document-line2" d="M18,23L46,23" style="fill:none;stroke:#000;stroke-width:2.5px;stroke-linecap:butt;"/>
+	<path class="line new-document-line3" d="M18,31L46,31" style="fill:none;stroke:#000;stroke-width:2.5px;stroke-linecap:butt;"/>
+	<path class="line new-document-line4" d="M18,39L46,39" style="fill:none;stroke:#000;stroke-width:2.5px;stroke-linecap:butt;"/>
+	<path class="line new-document-line5" d="M18,47L46,47" style="fill:none;stroke:#000;stroke-width:2.5px;stroke-linecap:butt;"/>
 </svg>
